@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <!-- webpack.HtmlWebpackPlugin 的配置，ejs语法 -->
+        <title><%= htmlWebpackPlugin.options.title %></title>
+
+        <link href="http://cdn.bootcss.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" rel="stylesheet">
+        <style media="screen">
+            .body{
+                margin: 0px;
+            }
+        </style>
+    </head>
+    <body>
+        <!-- jquery全局引用要在 webpack 中设置：webpack.ProvidePlugin; 更好的是使用 npm i jquery - -save -->
+        <!-- <script src="http://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script> -->
+        <!-- <script src="http://cdn.bootcss.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script> -->
+
+        <!-- HtmlWebpackPlugin 会将生成的 bundle.js 以 script 标签的方式注入在这里:<script src="http://cdn.my.com/bundle.3f3f3f3f.js"></script>，具体位置可以设置 -->
+        <!-- 如果想要再减少一些请求，必入把js代码直接注入在这里，可以查阅 webpack 的 compiler 和 compilation，或 webpack 提供的其它 API -->
+    </body>
+</html>

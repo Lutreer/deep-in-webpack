@@ -1,17 +1,17 @@
+var webpack = require('webpack');
 var config = require('./config');
-var webpackConfig = JSON.parse(JSON.stringify(require('./webpack.base.config')));
+var webpackConfig = require('./webpack.base.config.js');
+var CleanWebpackPlugin = require('clean-webpack-plugin');
 
-webpackConfig.plugins.concat([
+
+
+webpackConfig.plugins.push(
     new webpack.DefinePlugin({
-        'process.env': config.dev.env
+        'process.env': '"'+config.dev.env+'"'
     }),
     new webpack.NoErrorsPlugin(), // 允许错误不打断程序
-    new webpack.optimize.UglifyJsPlugin({
-        minimize: false,// js压缩
-        comments: false,// 删除注释
-        compress: {
-            warnings: true// 压缩是输出警告
-        },
-    }),
-])
-module.exports = webpackBaseConfig;
+    new webpack.HotModuleReplacementPlugin()
+
+)
+
+module.exports = webpackConfig;

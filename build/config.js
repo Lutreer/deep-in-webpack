@@ -11,7 +11,7 @@ module.exports = {
     build: {
         env: "production",
         rootPath: rootPath + '/dist',
-        assetsPath: rootPath + '/dist/assets,
+        assetsPath: rootPath + '/dist/assets',
         gzipExtensions: ['js', 'css']
     },
     dev: {

@@ -1,10 +1,10 @@
 // 这里展示了最最基本的配置
 var webpack = require('webpack');
 var config = require('./config');
-var path = require("path");
 
 var HtmlWebpackPlugin = require('html-webpack-plugin');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');// 注意webpack1要用1.X的版本
+var CleanWebpackPlugin = require('clean-webpack-plugin');
 
 var baseConfig = {
     // 单页应用
@@ -17,8 +17,8 @@ var baseConfig = {
         // app2: '.app/js/test1.js'
     },
     output: {
-        path: config.build.assetsPath,
-        filename: '[name].bundle.[chunkhash:5].js',
+        path: config.build.rootPath,
+        filename: 'assets/[name].bundle.[hash:5].js',
         // filename: '[name]-[hash].bundle.js',
         // publicPath:'https://cdn.my.com'
     },
@@ -32,19 +32,27 @@ var baseConfig = {
             },
             {
                 test: /\.scss$/,
-                loaders: ExtractTextPlugin.extract([
-                    'style-loader',
-                    'css-loader?modules&camelCase',
-                    'postcss-loader',
-                    'sass-loader'
-                ])
+                loader: ExtractTextPlugin.extract(
+                    'style',
+                    'css?modules&camelCase!postcss!sass'
+                )
             },
             {
                 test:/.(png|jpe?g|gif|svg)$/,
                 loaders:[
-                    "url-loader?limit=8000&name=assets/[name]-[hash:5].[ext]",
-                    "image-webpack-loader"
+                    "url-loader?limit=5120&name=assets/[name]-[hash:5].[ext]",
+                    "image-webpack"
                 ]
+            },
+            {
+                test:/\.html$/,
+                loader:'html-loader',
+                query:{
+                    minimize: false,
+                    removeComments: true,
+                    collapseWhitespace: false
+                }
+
             }
         ]
     },
@@ -54,20 +62,20 @@ var baseConfig = {
         })
     ],
     plugins: [
+
         new HtmlWebpackPlugin({
             title: "首页",
             // 该chunk编译后要写入到的html文件，默认输出为：output.path/index.html
             // filename: 'index.html',
             chunks:['app'],
             template: config.base.rootPath + '/index.html',
-            inject: true,
             cache:false
         }),
         new webpack.ProvidePlugin({
             // 全局可以直接使用 "$" 不需要再require或者import
-            $: "jquery"// npm install jquery --save-dev 或者写文件路径也可以
+            $: "jquery"// npm install jquery --save-dev 或者写文件路径
         }),
-        new ExtractTextPlugin(config.buidl.assetsPath + "style-[contenthash:5].css"),
+        new ExtractTextPlugin("./assets/tyle-[contenthash:5].css"),
 
     ]
 }
